@@ -206,7 +206,7 @@
             </div>     
             <div class="row">
                 <div class="col-12 d-flex justify-content-end my-5">                    
-                    <a href="#" class="btn-slide2">
+                    <a href="#" class="btn-slide2" onclick="download()" id="downloadexpense">
                         <span class="circle2 text-center"><i class="fa fa-download"></i></span>
                         <span class="title2">Download</span>
                         <span class="title-hover2">Click here</span>
@@ -216,6 +216,28 @@
         </div>
       </div>
  <script>
+
+
+
+function download(){
+    axios.get('http://localhost:3000/user/download', { headers: {"Authorization" : token} })
+    .then((response) => {
+        if(response.status === 201){
+            //the bcakend is essentially sending a download link
+            //  which if we open in browser, the file would download
+            var a = document.createElement("a");
+            a.href = response.data.fileUrl;
+            a.download = 'myexpense.csv';
+            a.click();
+        } else {
+            throw new Error(response.data.message)
+        }
+
+    })
+    .catch((err) => {
+        showError(err)
+    });
+}
     function LogOut(event){
             event.preventDefault()
             console.log("success")

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/signup.css">
+  <style>
+    
+  </style>
+</head>
+  <body>
+    
+      <section>
+    <div class="container-fluid">
+        <div class="container row1">
+            <div class="row row1">
+            <div class="col d-flex justify-content-center align-items-center">   
+                             
+                            <div class="form text-primary fw-bolder">
+                             <div class="border-bottom border-dark mb-4"><h1 class="text-center">Sign Up</h1> </div>   
+                            <form action="" method="post" onsubmit="OnSubmit(event)">
+                                <label for="name">Name</label>
+                                <input class="input" type="text" id="name" name="name" required placeholder="Enter your name">
+
+                                <label for="email">Email Address</label>
+                                <input class="input" type="text" id="email" name="email" required placeholder="Enter your email">
+
+                                <label for="phone">Phone Number</label>
+                                <input class="input" type="text" id="phone" name="phone" required placeholder="Enter your phone">
+
+                                <label for="password">Password</label>
+                                <input class="input" type="password" id="password" name="password" required placeholder="Enter a password">
+                                <div>                                    
+                                <input onclick="showPassword()" type="checkbox">
+                                <label>Show Password</label>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a href=""><button type="submit">Sign up</button></a>
+                                    </div>
+                                    <div class="col-6 d-flex justify-content-center">
+                                        <a href="/login.html">Login</a> 
+                                    </div>
+                                </div>                            
+                                
+                            </form>
+                            
+                            </div>                     
+            </div>
+        </div> 
+        </div>        
+    </div>
+    <div class="circle"></div>
+    <div class="circle-1"></div>
+    <div class="circle-2"></div>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    
+    <script >
+        
+async function OnSubmit(event){
+    event.preventDefault();
+    const name=document.getElementById('name').value
+    const email=document.getElementById('email').value
+    const phone=document.getElementById('phone').value
+    const password=document.getElementById('password').value
+    const obj={
+        name,
+        email,
+        phone,
+        password
+    }
+    console.log(obj)
+
+    try{
+        const response= await axios.post('http://localhost:2000/user/signup',obj)
+        console.log(response.data.newUserdata)
+        if(response.status===201){
+          window.location.href='/login.html'  
+        }
+        else{
+            throw new Error('failed to login')
+        }
+    }
+    catch (err){
+       document.body.innerHTML+=`<div style="color:red;">${err}<div>`;
+    }
+
+}
+async function showPassword(){
+    try{
+        const response= await document.getElementById('password')
+        if (response.type==="password"){
+            response.type="text";
+        }
+        else{
+            response.type='password';
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+
+}
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  </body>
+</html>
